@@ -34,15 +34,15 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.7.20"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "11"
     }
 }
 
@@ -55,8 +55,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation("io.coil-kt.coil3:coil-compose:3.0.4")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.4")
+    implementation("androidx.compose.material3:material3:1.3.1")
     implementation("androidx.activity:activity-compose:1.4.0")
-    implementation("androidx.compose.compiler:compiler:1.7.20")
     implementation(libs.androidx.ui.tooling.preview.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
