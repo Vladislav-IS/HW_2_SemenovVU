@@ -1,17 +1,13 @@
 package com.semenov.hw2
 
 import org.junit.Test
+import org.junit.Assert.assertEquals
 
-import org.junit.Assert.*
+import com.semenov.hw2.R
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 class UnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        assertEquals(4, 2+2)
     }
 }

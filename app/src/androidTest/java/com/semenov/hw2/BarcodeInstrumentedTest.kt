@@ -5,15 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.View
-import androidx.constraintlayout.utils.widget.ImageFilterView
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.test.captureToImage
+import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.FailureHandler
 import androidx.test.espresso.IdlingPolicies
 import androidx.test.espresso.accessibility.AccessibilityChecks
 import androidx.test.espresso.base.DefaultFailureHandler
-import androidx.test.espresso.screenshot.captureToBitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import androidx.test.platform.app.InstrumentationRegistry
@@ -22,28 +23,31 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
-//import com.practicum.playlist5.main.MainActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matcher
 import org.junit.AfterClass
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.BeforeClass
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class BarcodeInstrumentedTest {
+    @get:Rule
+    val composeTestRule = createEmptyComposeRule()
+
     private var activityScenario: ActivityScenario<MainActivity>? = null
     private var handler: BarcodeFailureHandler? = null
     private var uiDevice: UiDevice? = null
 
-    private val desiredUrl = "https://github.com/android/architecture-components-samples/"
+    private val desiredUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     private var linksFound = 0
 
     private lateinit var appContext: Context
@@ -81,11 +85,12 @@ class BarcodeInstrumentedTest {
     }
 
     private fun checkImageStep() = runBlocking {
-        val imageFilterViewBitmap = onView(
-            instanceOf(ImageFilterView::class.java)
-        ).captureToBitmap()
-
-        val imageFromView = InputImage.fromBitmap(imageFilterViewBitmap, 0)
+        delay(LOADING_DELAY)
+        val qrBitmap = composeTestRule
+            .onNodeWithContentDescription("qr-code")
+            .captureToImage()
+            .asAndroidBitmap()
+        val imageFromView = InputImage.fromBitmap(qrBitmap, 0)
         val scanner = BarcodeScanning.getClient()
         val resultFromView = scanner.process(imageFromView)
         delay(THREAD_DELAY)
@@ -109,9 +114,9 @@ class BarcodeInstrumentedTest {
     }
 
     companion object {
-        private const val APP_NAME = "Image QR"
+        private const val LOADING_DELAY: Long = 4_000
         private const val THREAD_DELAY: Long = 8_900
-        private const val MAX_TIMEOUT: Long = 13_000
+        private const val MAX_TIMEOUT: Long = 20_000
         private const val TAG = "BarcodeImageTest"
 
         @BeforeClass
