@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
                         .wrapContentWidth()
                         .wrapContentHeight()
                 ) {
-                    loadImageFromInternet()
+                    LoadImageFromInternet()
                 }
             }
         }
@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun loadImageFromInternet() {
+fun LoadImageFromInternet() {
     AsyncImage (
         model = ImageRequest.Builder(LocalContext.current)
             .data(URL)
