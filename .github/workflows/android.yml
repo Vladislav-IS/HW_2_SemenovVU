@@ -39,21 +39,6 @@ jobs:
       - name: Unit Tests
         run: ./gradlew test
 
-  internet:
-     runs-on: ubuntu-latest
-     steps:
-      - name: Send mail
-      - uses: dawidd6/action-send-mail@v2
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{secrets.MAIL_USERNAME}}
-          password: ${{secrets.MAIL_PASSWORD}}
-          subject: Github Actions job result
-          body: file://README.md
-          to: ml.semenov1@gmail.com
-          from: Luke Skywalker
-
   checks:
     runs-on: ubuntu-latest
     steps:
@@ -127,7 +112,7 @@ jobs:
           script: |
             touch emulator.log                    # create log file
             chmod 777 emulator.log                # allow writing to log file
-            adb logcat >> emulator.log &          # pipe all logcat messages into log file as a background process
+            #adb logcat >> emulator.log &          # pipe all logcat messages into log file as a background process
             ./gradlew connectedDebugAndroidTest
       - name: Upload results
         if: ${{ always() }}

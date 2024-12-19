@@ -85,7 +85,6 @@ class BarcodeInstrumentedTest {
     }
 
     private fun checkImageStep() = runBlocking {
-        Log.d("staer", "sdc")
         delay(LOADING_DELAY)
         val qrBitmap = composeTestRule
             .onNodeWithContentDescription("qr-code")
