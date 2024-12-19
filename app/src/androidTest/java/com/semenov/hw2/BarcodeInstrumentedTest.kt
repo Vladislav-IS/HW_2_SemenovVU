@@ -114,7 +114,6 @@ class BarcodeInstrumentedTest {
     }
 
     companion object {
-        private const val APP_NAME = "Image QR"
         private const val LOADING_DELAY: Long = 4_000
         private const val THREAD_DELAY: Long = 8_900
         private const val MAX_TIMEOUT: Long = 20_000
