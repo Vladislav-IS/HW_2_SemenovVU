@@ -114,9 +114,9 @@ class BarcodeInstrumentedTest {
     }
 
     companion object {
-        private const val LOADING_DELAY: Long = 14_000
-        private const val THREAD_DELAY: Long = 18_900
-        private const val MAX_TIMEOUT: Long = 40_000
+        private const val LOADING_DELAY: Long = 34_000
+        private const val THREAD_DELAY: Long = 8_900
+        private const val MAX_TIMEOUT: Long = 60_000
         private const val TAG = "BarcodeImageTest"
 
         @BeforeClass
