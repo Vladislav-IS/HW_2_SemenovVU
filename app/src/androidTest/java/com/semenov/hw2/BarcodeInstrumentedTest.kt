@@ -85,6 +85,7 @@ class BarcodeInstrumentedTest {
     }
 
     private fun checkImageStep() = runBlocking {
+        Log.d("staer", "sdc")
         delay(LOADING_DELAY)
         val qrBitmap = composeTestRule
             .onNodeWithContentDescription("qr-code")
@@ -114,9 +115,9 @@ class BarcodeInstrumentedTest {
     }
 
     companion object {
-        private const val LOADING_DELAY: Long = 300_000
-        private const val THREAD_DELAY: Long = 80_900
-        private const val MAX_TIMEOUT: Long = 600_000
+        private const val LOADING_DELAY: Long = 4_000
+        private const val THREAD_DELAY: Long = 8_900
+        private const val MAX_TIMEOUT: Long = 20_000
         private const val TAG = "BarcodeImageTest"
 
         @BeforeClass
