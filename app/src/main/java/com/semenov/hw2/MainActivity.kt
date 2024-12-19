@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImagePainter
@@ -49,7 +50,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Surface(modifier = Modifier.fillMaxSize()) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize(),
+                color = Color.Cyan
+            ) {
                 Column(
                     modifier = Modifier
                         .padding(30.dp)
@@ -57,37 +62,16 @@ class MainActivity : ComponentActivity() {
                         .wrapContentWidth()
                         .wrapContentHeight()
                 ) {
-                    LoadingImageFromInternetCoil()
+                    loadImageFromInternet()
                 }
             }
         }
-
-        Thread(Runnable {
-            var internet = false;
-            while (true) {
-                val checked = checkConnection(this)
-                internet = checked
-                if (checked && !internet) {
-                    internet = checked
-                    runOnUiThread {
-                        Runnable {
-                            setContent {
-                                println("ogo")
-                                LoadingImageFromInternetCoil()
-                            }
-                        }
-                    }
-                }
-                if (!checked && internet)
-                    internet = checked
-            }
-        }).start()
     }
 }
 
 @Composable
-fun LoadingImageFromInternetCoil() {
-    val ai = AsyncImage (
+fun loadImageFromInternet() {
+    AsyncImage (
         model = ImageRequest.Builder(LocalContext.current)
             .data(URL)
             .diskCachePolicy(
@@ -98,25 +82,12 @@ fun LoadingImageFromInternetCoil() {
                 CachePolicy.ENABLED
             )
             .build(),
-        contentDescription = "Translated description of what the image contains",
+        contentDescription = "qr-code",
         alignment = Alignment.TopCenter,
-        modifier = Modifier.size(300.dp),
+        modifier = Modifier
+            .size(300.dp),
         contentScale = ContentScale.Crop,
-        placeholder = painterResource(R.drawable.ic_launcher_background),
-        error = painterResource(R.drawable.ic_launcher_foreground)
+        placeholder = painterResource(R.drawable.loading),
+        error = painterResource(R.drawable.error),
     )
-}
-
-fun checkConnection(context: Context): Boolean {
-    val connectivityManager =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val activeNetwork = connectivityManager.activeNetwork
-    val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
-    if (capabilities != null) {
-        if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                return true;
-            }
-    }
-    return false;
 }

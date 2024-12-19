@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.cfg.pseudocode.and
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("io.gitlab.arturbosch.detekt").version("1.23.7")
 }
 
 android {
@@ -38,12 +39,19 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
+}
+
+detekt {
+    toolVersion = "1.23.7"
+    config = files("config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
 }
 
 dependencies {
@@ -63,5 +71,7 @@ dependencies {
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
     androidTestImplementation("androidx.test.espresso:espresso-accessibility:3.5.0")
-    androidTestImplementation("com.google.mlkit:barcode-scanning:17.3.0")
+    implementation("com.google.mlkit:barcode-scanning:17.3.0")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.0.1")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.0.1")
 }
